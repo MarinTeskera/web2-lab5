@@ -18,11 +18,13 @@ const record = document.getElementById("record");
 const bg = document.querySelector("html");
 
 record.onclick = () => {
+  record.textContent = "Recording in progress";
   recognition.start();
   console.log("Ready to receive a color command.");
 };
 
 recognition.onresult = (event) => {
+  record.textContent = "Start recording";
   const color = event.results[0][0].transcript;
   diagnostic.textContent = `Result received: ${color}`;
   bg.style.backgroundColor = color;

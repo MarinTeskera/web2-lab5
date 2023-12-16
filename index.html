@@ -10,9 +10,11 @@
 </head>
 <body>
     <h1>Voice dictation app</h1>
-    <br>
-    <button id="record">Record</button>
-    <span class="output"></span>
+    <div>
+
+        <button id="record">Start recording</button>
+        <span class="output"></span>
+    </div>
     <script>
         navigator.serviceWorker.register('./sw.js')
           .then(reg => console.log('SW registered!', reg))
