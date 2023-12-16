@@ -10,10 +10,14 @@
 </head>
 <body>
     <h1>Voice dictation app</h1>
+    <br>
+    <button id="record">Record</button>
+    <span class="output"></span>
     <script>
         navigator.serviceWorker.register('./sw.js')
           .then(reg => console.log('SW registered!', reg))
           .catch(err => console.error('Error registering service worker', err));
     </script>
+    <script src="speech.js"></script>
 </body>
 </html>
