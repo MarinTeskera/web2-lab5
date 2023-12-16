@@ -1,15 +1,32 @@
 {
     "name": "PWA Lab",
     "short_name": "PWA",
-    "description": "A description of your app",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#000000",
+    "description": "Peti laboratorij iz predmeta WEB2",
+    "display": "fullscreen",
+    "theme_color": "red",
+    "background_color": "#DDD",
+    "start_url": "/index.html",
+    "scope": ".",
+    "orientation": "portrait-primary",
+    "dir": "ltr",
+    "lang": "en-US",
+    "prefer_related_applications": true,
+    "related_applications": [
+      {
+        "platform": "webapp",
+        "url": "https://edgar.fer.hr",
+        "id": "hr.fer.edgar"
+      }
+    ],
     "icons": [
       {
-        "src": "/path/to/icon.png",
+        "src": "/assets/img/favicon.png",
         "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/assets/img/favicon.png",
+        "sizes": "512x512",
         "type": "image/png"
       }
     ]
