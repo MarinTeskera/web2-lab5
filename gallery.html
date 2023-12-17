@@ -7,10 +7,15 @@
     <link rel="stylesheet" href="assets/gallery.css">
 </head>
 <body>
+    <div id="galleryContainer" class="container">
     <h1>Image Gallery</h1>
+    </div>
 
-    <div id="galleryContainer"></div>
-
+    <script>
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('SW registered!', reg))
+          .catch(err => console.error('Error registering service worker', err));
+    </script>
     <script src="gallery.js"></script>
 </body>
 </html>

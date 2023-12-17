@@ -46,10 +46,10 @@ function createGalleryItem(imageData) {
 
       applyStoredStyles(image, imageData.styles);
 
-      if (data.height) {
+      if (data.height && data.height > 0) {
         image.height = data.height;
       }
-      if (data.width) {
+      if (data.width && data.width > 0) {
         image.width = data.width;
       }
     }

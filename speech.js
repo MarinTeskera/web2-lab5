@@ -65,6 +65,7 @@ function saveImage() {
     const styles = {
       border: uploadedImage.style.borderRadius,
       clipPath: uploadedImage.style.clipPath,
+      objectFit: uploadedImage.style.objectFit,
       height: uploadedImage.height,
       width: uploadedImage.width,
     };
