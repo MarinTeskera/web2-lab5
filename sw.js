@@ -7,6 +7,7 @@ const filesToCache = [
   "404.html",
   "/assets/img/favicon.png",
   "/assets/style.css",
+  "/assets/gallery.css",
 ];
 
 const staticCacheName = "static-cache";
