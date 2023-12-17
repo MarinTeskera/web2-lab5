@@ -2,6 +2,7 @@ const filesToCache = [
   "/",
   "manifest.json",
   "index.html",
+  "gallery.html",
   "offline.html",
   "404.html",
   "/assets/img/favicon.png",
