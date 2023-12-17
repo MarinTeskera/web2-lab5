@@ -42,7 +42,16 @@ function createGalleryItem(imageData) {
 
     // Apply stored styles to the image
     if (imageData.styles) {
+      const data = imageData.styles;
+
       applyStoredStyles(image, imageData.styles);
+
+      if (data.height) {
+        image.height = data.height;
+      }
+      if (data.width) {
+        image.width = data.width;
+      }
     }
 
     galleryItem.appendChild(image);

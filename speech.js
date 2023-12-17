@@ -65,7 +65,8 @@ function saveImage() {
     const styles = {
       border: uploadedImage.style.borderRadius,
       clipPath: uploadedImage.style.clipPath,
-      // Add other styles as needed
+      height: uploadedImage.height,
+      width: uploadedImage.width,
     };
 
     // Save the image URL and styles
