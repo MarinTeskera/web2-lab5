@@ -8,11 +8,11 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 app.get("/", function (req, res) {
-  res.sendFile("index.html");
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.get("/gallery", function (req, res) {
-  res.sendFile("gallery.html");
+  res.sendFile(path.join(__dirname, "gallery.html"));
 });
 
 app.listen(httpPort, function () {
