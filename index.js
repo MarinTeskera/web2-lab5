@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const httpPort = 3000;
+const httpPort = 80;
 
 const app = express();
 app.use(express.json()); // za VER06

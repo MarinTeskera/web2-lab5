@@ -10,11 +10,13 @@
 </head>
 <body>
     <h1>Voice dictation app</h1>
-    <div>
 
-        <button id="record">Start recording</button>
-        <span class="output"></span>
-    </div>
+    <button id="record-start">Start recording</button>
+    <span class="output"></span>
+
+    <input type="file" id="imageInput" accept="image/*">
+    <div id="imageContainer"></div>
+
     <script>
         navigator.serviceWorker.register('./sw.js')
           .then(reg => console.log('SW registered!', reg))
