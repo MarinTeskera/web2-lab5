@@ -20,6 +20,7 @@ const diagnostic = document.querySelector(".output");
 const imageContainer = document.getElementById("imageContainer");
 const imageInput = document.getElementById("imageInput");
 const recordButton = document.getElementById("record-start");
+const saveButton = document.getElementById("saveButton"); // Add the "Save" button
 
 recordButton.onclick = () => {
   recognition.start();
@@ -27,6 +28,9 @@ recordButton.onclick = () => {
 };
 
 imageInput.addEventListener("change", handleImageUpload);
+
+// Add click event listener to the "Save" button
+saveButton.addEventListener("click", saveImage);
 
 function handleImageUpload(event) {
   const file = event.target.files[0];
@@ -46,15 +50,30 @@ function handleImageUpload(event) {
 
       imageContainer.innerHTML = "";
       imageContainer.appendChild(uploadedImage);
-
-      saveImageToIndexedDB(imageUrl);
     };
 
     reader.readAsDataURL(file);
   }
 }
 
-function saveImageToIndexedDB(imageUrl) {
+function saveImage() {
+  const uploadedImage = document.getElementById("uploadedImage");
+
+  if (uploadedImage) {
+    // Get the image URL and styles
+    const imageUrl = uploadedImage.src;
+    const styles = {
+      border: uploadedImage.style.borderRadius,
+      clipPath: uploadedImage.style.clipPath,
+      // Add other styles as needed
+    };
+
+    // Save the image URL and styles
+    saveImageToIndexedDB(imageUrl, styles);
+  }
+}
+
+function saveImageToIndexedDB(imageUrl, styles) {
   // Open a connection to IndexedDB
   const request = indexedDB.open("YourImageDatabase", 1);
 
@@ -66,6 +85,7 @@ function saveImageToIndexedDB(imageUrl) {
       autoIncrement: true,
     });
     objectStore.createIndex("url", "url", { unique: false });
+    objectStore.createIndex("styles", "styles", { unique: false });
   };
 
   // Handle successful database opening
@@ -76,8 +96,8 @@ function saveImageToIndexedDB(imageUrl) {
     const transaction = db.transaction(["images"], "readwrite");
     const objectStore = transaction.objectStore("images");
 
-    // Save the image URL
-    const addRequest = objectStore.add({ url: imageUrl });
+    // Save the image URL and styles
+    const addRequest = objectStore.add({ url: imageUrl, styles: styles });
 
     // Handle the success of the add operation
     addRequest.onsuccess = () => {
