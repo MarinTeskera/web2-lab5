@@ -60,15 +60,3 @@ self.addEventListener("fetch", (event) => {
       .catch(() => caches.match("offline.html"))
   );
 });
-
-self.addEventListener("push", (event) => {
-  const options = {
-    body: event.data.text(),
-    icon: "/assets/img/favicon.png",
-    badge: "/assets/img/favicon.png",
-  };
-
-  event.waitUntil(
-    self.registration.showNotification("Push Notification", options)
-  );
-});
