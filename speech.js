@@ -28,9 +28,6 @@ recordButton.onclick = () => {
 
 imageInput.addEventListener("change", handleImageUpload);
 
-let originalWidth;
-let originalHeight;
-
 function handleImageUpload(event) {
   const file = event.target.files[0];
 
@@ -90,7 +87,7 @@ function resizeImage() {
 
   if (uploadedImage) {
     // Set the size to the smaller dimension only when the shape is "square"
-    const imageSize = Math.min(originalWidth, originalHeight);
+    const imageSize = Math.min(uploadedImage.height, uploadedImage.width);
 
     // Avoid setting the size to 0
     if (imageSize > 0) {
