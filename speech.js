@@ -19,8 +19,9 @@ recognition.maxAlternatives = 1;
 const diagnostic = document.querySelector(".output");
 const imageContainer = document.getElementById("imageContainer");
 const imageInput = document.getElementById("imageInput");
+const recordButton = document.getElementById("record-start");
 
-document.body.onclick = () => {
+recordButton.onclick = () => {
   recognition.start();
   console.log("Ready to receive a shape command.");
 };
@@ -59,10 +60,21 @@ function applyShapeTransformation(shape) {
     switch (shape) {
       case "circle":
         uploadedImage.style.borderRadius = "50%";
+        uploadedImage.style.clipPath = "none"; // Clear any existing clip path
         break;
       case "square":
         uploadedImage.style.borderRadius = "0";
+        uploadedImage.style.clipPath = "none"; // Clear any existing clip path
         resizeImage(); // Call resizeImage only when the shape is "square"
+        break;
+      case "triangle":
+        uploadedImage.style.borderRadius = "0";
+        uploadedImage.style.clipPath = "polygon(50% 0%, 0% 100%, 100% 100%)";
+        break;
+      case "star":
+        uploadedImage.style.borderRadius = "0";
+        uploadedImage.style.clipPath =
+          "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)";
         break;
       case "reset":
         resetStyles();
