@@ -92,10 +92,13 @@ function resizeImage() {
     // Set the size to the smaller dimension only when the shape is "square"
     const imageSize = Math.min(originalWidth, originalHeight);
 
-    uploadedImage.style.width = `${imageSize}px`;
-    uploadedImage.style.height = `${imageSize}px`;
-    uploadedImage.style.objectFit = "cover"; // Enable cropping
-    uploadedImage.style.objectPosition = "50% 50%"; // Center the cropped region
+    // Avoid setting the size to 0
+    if (imageSize > 0) {
+      uploadedImage.style.width = `${imageSize}px`;
+      uploadedImage.style.height = `${imageSize}px`;
+      uploadedImage.style.objectFit = "cover"; // Enable cropping
+      uploadedImage.style.objectPosition = "50% 50%"; // Center the cropped region
+    }
   }
 }
 
