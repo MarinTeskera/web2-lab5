@@ -20,16 +20,15 @@ const diagnostic = document.querySelector(".output");
 const imageContainer = document.getElementById("imageContainer");
 const imageInput = document.getElementById("imageInput");
 const recordButton = document.getElementById("record-start");
-const saveButton = document.getElementById("saveButton"); // Add the "Save" button
+const saveButton = document.getElementById("saveButton");
 
 recordButton.onclick = () => {
+  recordButton.disabled = true;
   recognition.start();
-  console.log("Ready to receive a shape command.");
 };
 
 imageInput.addEventListener("change", handleImageUpload);
 
-// Add click event listener to the "Save" button
 saveButton.addEventListener("click", saveImage);
 
 function handleImageUpload(event) {
@@ -60,7 +59,6 @@ function saveImage() {
   const uploadedImage = document.getElementById("uploadedImage");
 
   if (uploadedImage) {
-    // Get the image URL and styles
     const imageUrl = uploadedImage.src;
     const styles = {
       border: uploadedImage.style.borderRadius,
@@ -70,16 +68,13 @@ function saveImage() {
       width: uploadedImage.width,
     };
 
-    // Save the image URL and styles
     saveImageToIndexedDB(imageUrl, styles);
   }
 }
 
 function saveImageToIndexedDB(imageUrl, styles) {
-  // Open a connection to IndexedDB
   const request = indexedDB.open("YourImageDatabase", 1);
 
-  // Create or upgrade the database
   request.onupgradeneeded = (event) => {
     const db = event.target.result;
     const objectStore = db.createObjectStore("images", {
@@ -90,29 +85,23 @@ function saveImageToIndexedDB(imageUrl, styles) {
     objectStore.createIndex("styles", "styles", { unique: false });
   };
 
-  // Handle successful database opening
   request.onsuccess = (event) => {
     const db = event.target.result;
 
-    // Create a transaction and access the object store
     const transaction = db.transaction(["images"], "readwrite");
     const objectStore = transaction.objectStore("images");
 
-    // Save the image URL and styles
     const addRequest = objectStore.add({ url: imageUrl, styles: styles });
 
-    // Handle the success of the add operation
     addRequest.onsuccess = () => {
-      console.log("Image saved to IndexedDB");
+      window.location.href = "/gallery";
     };
 
-    // Handle errors
     addRequest.onerror = (error) => {
       console.error("Error saving image to IndexedDB:", error);
     };
   };
 
-  // Handle database opening errors
   request.onerror = (event) => {
     console.error("Error opening IndexedDB:", event.target.error);
   };
@@ -125,13 +114,13 @@ function applyShapeTransformation(shape) {
     switch (shape) {
       case "circle":
         uploadedImage.style.borderRadius = "50%";
-        uploadedImage.style.clipPath = "none"; // Clear any existing clip path
+        uploadedImage.style.clipPath = "none";
         resizeImage();
         break;
       case "square":
         uploadedImage.style.borderRadius = "0";
-        uploadedImage.style.clipPath = "none"; // Clear any existing clip path
-        resizeImage(); // Call resizeImage only when the shape is "square"
+        uploadedImage.style.clipPath = "none";
+        resizeImage();
         break;
       case "triangle":
         uploadedImage.style.borderRadius = "0";
@@ -155,15 +144,13 @@ function resizeImage() {
   const uploadedImage = document.getElementById("uploadedImage");
 
   if (uploadedImage) {
-    // Set the size to the smaller dimension only when the shape is "square"
     const imageSize = Math.min(uploadedImage.height, uploadedImage.width);
 
-    // Avoid setting the size to 0
     if (imageSize > 0) {
       uploadedImage.style.width = `${imageSize}px`;
       uploadedImage.style.height = `${imageSize}px`;
-      uploadedImage.style.objectFit = "cover"; // Enable cropping
-      uploadedImage.style.objectPosition = "50% 50%"; // Center the cropped region
+      uploadedImage.style.objectFit = "cover";
+      uploadedImage.style.objectPosition = "50% 50%";
     }
   }
 }
@@ -172,16 +159,14 @@ function resetStyles() {
   const uploadedImage = document.getElementById("uploadedImage");
 
   if (uploadedImage) {
-    // Remove all styles
     uploadedImage.style.borderRadius = "0";
     uploadedImage.style.width = "auto";
     uploadedImage.style.height = "auto";
   }
 }
 
-// Your other existing code...
-
 recognition.onresult = (event) => {
+  recordButton.disabled = false;
   const transcript = event.results[0][0].transcript.trim().toLowerCase();
 
   const allowedShapes = ["circle", "square", "triangle", "star", "reset"];

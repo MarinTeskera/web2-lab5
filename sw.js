@@ -20,7 +20,6 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   const cacheWhitelist = [staticCacheName];
-  // Ovako možemo obrisati sve ostale cacheve koji nisu naš
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
