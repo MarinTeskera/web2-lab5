@@ -182,14 +182,16 @@ function resetStyles() {
 // Your other existing code...
 
 recognition.onresult = (event) => {
-  const shape = event.results[0][0].transcript.trim().toLowerCase();
-  diagnostic.textContent = `Result received: ${shape}`;
+  const transcript = event.results[0][0].transcript.trim().toLowerCase();
 
   const allowedShapes = ["circle", "square", "triangle", "star", "reset"];
+  const foundShape = allowedShapes.find((shape) => transcript.includes(shape));
 
-  if (allowedShapes.includes(shape)) {
-    applyShapeTransformation(shape);
+  diagnostic.textContent = `Shape: ${transcript}`;
+
+  if (foundShape) {
+    applyShapeTransformation(foundShape);
   } else {
-    diagnostic.textContent += " (Invalid shape)";
+    diagnostic.textContent = "No supported shape detected";
   }
 };

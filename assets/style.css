@@ -5,6 +5,22 @@ body {
     align-items: center;
 }
 
+a {
+    margin-bottom: 15px;
+}
+
+input {
+    margin-bottom: 15px;
+}
+
+div {
+    margin-bottom: 15px;
+}
+
+button{
+    margin-bottom: 15px;
+}
+
 .output {
     margin-bottom: 15px;
 }
