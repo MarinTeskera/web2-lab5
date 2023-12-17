@@ -36,18 +36,64 @@ function handleImageUpload(event) {
 
     reader.onload = (e) => {
       const imageUrl = e.target.result;
-      imageContainer.innerHTML = `<img src="${imageUrl}" alt="Uploaded Image" id="uploadedImage">`;
+      const uploadedImage = document.createElement("img");
+      uploadedImage.src = imageUrl;
+      uploadedImage.alt = "Uploaded Image";
+      uploadedImage.id = "uploadedImage";
 
-      // Store the original dimensions
-      const uploadedImage = document.getElementById("uploadedImage");
-      originalWidth = uploadedImage.width;
-      originalHeight = uploadedImage.height;
+      uploadedImage.style.maxWidth = "60vh";
+      uploadedImage.style.height = "auto";
 
-      // Do not call resizeImage here to retain the original size
+      imageContainer.innerHTML = "";
+      imageContainer.appendChild(uploadedImage);
+
+      saveImageToIndexedDB(imageUrl);
     };
 
     reader.readAsDataURL(file);
   }
+}
+
+function saveImageToIndexedDB(imageUrl) {
+  // Open a connection to IndexedDB
+  const request = indexedDB.open("YourImageDatabase", 1);
+
+  // Create or upgrade the database
+  request.onupgradeneeded = (event) => {
+    const db = event.target.result;
+    const objectStore = db.createObjectStore("images", {
+      keyPath: "id",
+      autoIncrement: true,
+    });
+    objectStore.createIndex("url", "url", { unique: false });
+  };
+
+  // Handle successful database opening
+  request.onsuccess = (event) => {
+    const db = event.target.result;
+
+    // Create a transaction and access the object store
+    const transaction = db.transaction(["images"], "readwrite");
+    const objectStore = transaction.objectStore("images");
+
+    // Save the image URL
+    const addRequest = objectStore.add({ url: imageUrl });
+
+    // Handle the success of the add operation
+    addRequest.onsuccess = () => {
+      console.log("Image saved to IndexedDB");
+    };
+
+    // Handle errors
+    addRequest.onerror = (error) => {
+      console.error("Error saving image to IndexedDB:", error);
+    };
+  };
+
+  // Handle database opening errors
+  request.onerror = (event) => {
+    console.error("Error opening IndexedDB:", event.target.error);
+  };
 }
 
 function applyShapeTransformation(shape) {
@@ -58,6 +104,7 @@ function applyShapeTransformation(shape) {
       case "circle":
         uploadedImage.style.borderRadius = "50%";
         uploadedImage.style.clipPath = "none"; // Clear any existing clip path
+        resizeImage();
         break;
       case "square":
         uploadedImage.style.borderRadius = "0";
