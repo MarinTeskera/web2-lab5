@@ -187,7 +187,7 @@ recognition.onresult = (event) => {
   const allowedShapes = ["circle", "square", "triangle", "star", "reset"];
   const foundShape = allowedShapes.find((shape) => transcript.includes(shape));
 
-  diagnostic.textContent = `Shape: ${transcript}`;
+  diagnostic.textContent = `Shape: ${foundShape}`;
 
   if (foundShape) {
     applyShapeTransformation(foundShape);
